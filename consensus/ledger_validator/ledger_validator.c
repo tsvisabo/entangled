@@ -147,12 +147,12 @@ static retcode_t get_latest_delta_do_func(flex_trit_t *hash,
       (get_latest_delta_do_func_params_t *)data;
   ledger_validator_t *lv = params->lv;
   iota_transaction_t tx = pack->models[0];
+  bundle_transactions_new(&bundle);
 
   if (transaction_snapshot_index(tx) == 0 ||
       transaction_snapshot_index(tx) > params->latest_snapshot_index) {
     *should_branch = true;
     if (transaction_current_index(tx) == 0) {
-      bundle_transactions_new(&bundle);
       if ((ret = iota_consensus_bundle_validator_validate(
                lv->tangle, hash, bundle, &bundle_status)) != RC_OK) {
         goto done;
@@ -173,7 +173,7 @@ static retcode_t get_latest_delta_do_func(flex_trit_t *hash,
         }
         tx_bundle = (iota_transaction_t)utarray_next(bundle, tx_bundle);
       }
-      bundle_transactions_free(&bundle);
+      utarray_clear(bundle);
     }
   }
 
