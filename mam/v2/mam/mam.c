@@ -588,8 +588,8 @@ size_t mam_send_msg_size(mam_send_msg_context_t *cfg) {
   sz += pb3_sizeof_ntrytes(MAM2_HEADER_NONCE_SIZE / 3);
   {
     size_t keyload_count = 0;
-    mam_psk_node *ipsk;
-    mam_ntru_pk_node *intru_pk;
+    mam_pre_shared_key_node *ipsk;
+    mam_ntru_public_key_node *intru_pk;
 
     if (cfg->key_plain) {
       ++keyload_count;
@@ -722,14 +722,14 @@ void mam_send_msg(mam_send_msg_context_t *cfg, trits_t *msg) {
     {
       size_t keyload_count = 0;
       tryte_t keyload;
-      mam_psk_node *ipsk;
-      mam_ntru_pk_node *intru_pk;
+      mam_pre_shared_key_node *ipsk;
+      mam_ntru_public_key_node *ntru_pk;
 
       if (cfg->key_plain) ++keyload_count;
       for (ipsk = cfg->pre_shared_keys.begin; ipsk; ipsk = ipsk->next)
         ++keyload_count;
-      for (intru_pk = cfg->ntru_public_keys.begin; intru_pk;
-           intru_pk = intru_pk->next)
+      for (ntru_pk = cfg->ntru_public_keys.begin; ntru_pk;
+           ntru_pk = ntru_pk->next)
         ++keyload_count;
 
       /*  repeated */
@@ -757,8 +757,8 @@ void mam_send_msg(mam_send_msg_context_t *cfg, trits_t *msg) {
                              mam_psk_trits(&ipsk->info));
       }
 
-      for (intru_pk = cfg->ntru_public_keys.begin; intru_pk;
-           intru_pk = intru_pk->next) {
+      for (ntru_pk = cfg->ntru_public_keys.begin; ntru_pk;
+           ntru_pk = ntru_pk->next) {
         /*  absorb oneof keyload */
         keyload = (tryte_t)mam_msg_keyload_ntru;
         pb3_wrap_absorb_tryte(spongos, msg, keyload);
@@ -766,7 +766,7 @@ void mam_send_msg(mam_send_msg_context_t *cfg, trits_t *msg) {
         spongos_fork(spongos, fork);
         /*  KeyloadNTRU ntru = 2; */
         mam_wrap_keyload_ntru(fork, msg, mam_send_msg_cfg_session_key(cfg),
-                              mam_ntru_pk_trits(&intru_pk->info), cfg->rng,
+                              mam_ntru_pk_trits(&ntru_pk->info), cfg->rng,
                               cfg->spongos_ntru, mam_send_msg_cfg_nonce(cfg));
       }
     }
