@@ -119,15 +119,15 @@ mam_endpoint_save, mam_endpoint_load
 #define MAM2_PSK_ID_SIZE 81
 #define MAM2_PSK_SIZE 243
 /*! \brief Preshared key. */
-typedef struct mam_psk_s {
+typedef struct mam_pre_shared_key_s {
   word_t id[MAM2_WORDS(MAM2_PSK_ID_SIZE)];
-  word_t psk[MAM2_WORDS(MAM2_PSK_SIZE)];
-} mam_psk_t;
+  word_t pre_shared_key[MAM2_WORDS(MAM2_PSK_SIZE)];
+} mam_pre_shared_key_t;
 
-trits_t mam_psk_id(mam_psk_t *p);
-trits_t mam_psk_trits(mam_psk_t *p);
+trits_t mam_psk_id(mam_pre_shared_key_t *p);
+trits_t mam_psk_trits(mam_pre_shared_key_t *p);
 
-def_mam_list_node(mam_psk_t, mam_psk_node);
+def_mam_list_node(mam_pre_shared_key_t, mam_psk_node);
 def_mam_list(mam_psk_node, mam_pre_shared_keys_list);
 
 /*! \brief Recipient's NTRU public key. */
@@ -287,7 +287,7 @@ typedef struct mam_recv_msg_context_s {
   word_t psk_id[MAM2_WORDS(MAM2_PSK_ID_SIZE)]; /*!< Buffer to read PSK id to. */
   word_t
       ntru_id[MAM2_WORDS(MAM2_NTRU_ID_SIZE)]; /*!< Buffer to read NTRU id to. */
-  mam_psk_t *psk;                             /*!< PSK to decrypt message. */
+  mam_pre_shared_key_t *psk;                  /*!< PSK to decrypt message. */
   ntru_t *ntru; /*!< NTRU sk to decrypt message. */
 } mam_recv_msg_context_t;
 

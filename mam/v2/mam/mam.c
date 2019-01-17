@@ -163,11 +163,11 @@ void mam_endpoint_destroy(mam_ialloc_t *ma,  /*!< [in] Allocator. */
   mam_mss_destroy(ma, ep->m);
 }
 
-trits_t mam_psk_id(mam_psk_t *p) {
+trits_t mam_psk_id(mam_pre_shared_key_t *p) {
   return trits_from_rep(MAM2_PSK_ID_SIZE, p->id);
 }
-trits_t mam_psk_trits(mam_psk_t *p) {
-  return trits_from_rep(MAM2_PSK_SIZE, p->psk);
+trits_t mam_psk_trits(mam_pre_shared_key_t *p) {
+  return trits_from_rep(MAM2_PSK_SIZE, p->pre_shared_key);
 }
 
 trits_t mam_ntru_pk_trits(mam_ntru_pk_t *p) {
