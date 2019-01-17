@@ -238,7 +238,7 @@ typedef struct mam_send_msg_context_s {
 
   word_t nonce[MAM2_WORDS(MAM2_HEADER_NONCE_SIZE)]; /*!< Message nonce, must be
                                                        unique for each key. */
-  word_t key[MAM2_WORDS(
+  word_t session_key[MAM2_WORDS(
       MAM2_SPONGE_KEY_SIZE)]; /*!< Trits (memory) for session key. */
   bool_t key_plain;           /*!< Include session key in plain? */
   mam_pre_shared_keys_list
@@ -310,7 +310,7 @@ trits_t mam_send_msg_cfg_chid1(mam_send_msg_context_t *cfg);
 trits_t mam_send_msg_cfg_epid(mam_send_msg_context_t *cfg);
 trits_t mam_send_msg_cfg_epid1(mam_send_msg_context_t *cfg);
 trits_t mam_send_msg_cfg_nonce(mam_send_msg_context_t *cfg);
-trits_t mam_send_msg_cfg_key(mam_send_msg_context_t *cfg);
+trits_t mam_send_msg_cfg_session_key(mam_send_msg_context_t *cfg);
 
 trits_t mam_recv_msg_cfg_chid(mam_recv_msg_context_t *cfg);
 trits_t mam_recv_msg_cfg_chid1(mam_recv_msg_context_t *cfg);
