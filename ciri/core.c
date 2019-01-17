@@ -13,7 +13,7 @@
 
 static logger_id_t logger_id;
 
-retcode_t core_init(core_t* const core, tangle_t* const tangle) {
+retcode_t core_init(core_t *const core, tangle_t *const tangle) {
   if (core == NULL) {
     return RC_CORE_NULL_CORE;
   }
