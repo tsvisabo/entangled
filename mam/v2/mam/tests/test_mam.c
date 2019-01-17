@@ -107,20 +107,20 @@ static trits_t mam_test_generic_send_msg(
     }
 
     cfg->key_plain = 0;
-    cfg->psks.begin = NULL;
-    cfg->psks.end = NULL;
-    cfg->ntru_pks.begin = NULL;
-    cfg->ntru_pks.end = NULL;
+    cfg->pre_shared_keys.begin = NULL;
+    cfg->pre_shared_keys.end = NULL;
+    cfg->ntru_public_keys.begin = NULL;
+    cfg->ntru_public_keys.end = NULL;
     if (mam_msg_keyload_plain == keyload)
       cfg->key_plain = 1;
     else if (mam_msg_keyload_psk == keyload) {
       pska->prev = pska->next = NULL;
       pskb->prev = pskb->next = NULL;
-      mam_list_insert_end(cfg->psks, pska);
-      mam_list_insert_end(cfg->psks, pskb);
+      mam_list_insert_end(cfg->pre_shared_keys, pska);
+      mam_list_insert_end(cfg->pre_shared_keys, pskb);
     } else if (mam_msg_keyload_ntru == keyload) {
       ntru_pk->prev = ntru_pk->next = NULL;
-      mam_list_insert_end(cfg->ntru_pks, ntru_pk);
+      mam_list_insert_end(cfg->ntru_public_keys, ntru_pk);
     }
 
     trits_from_str(mam_send_msg_cfg_nonce(cfg), "SENDERNONCEAAAAASENDERNONCE");

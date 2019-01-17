@@ -599,7 +599,7 @@ size_t mam_send_msg_size(mam_send_msg_context_t *cfg) {
       sz += mam_wrap_keyload_plain_size();
     }
 
-    for (ipsk = cfg->psks.begin; ipsk; ipsk = ipsk->next) {
+    for (ipsk = cfg->pre_shared_keys.begin; ipsk; ipsk = ipsk->next) {
       ++keyload_count;
       /*  absorb oneof */
       sz += pb3_sizeof_oneof();
@@ -607,7 +607,8 @@ size_t mam_send_msg_size(mam_send_msg_context_t *cfg) {
       sz += mam_wrap_keyload_psk_size();
     }
 
-    for (intru_pk = cfg->ntru_pks.begin; intru_pk; intru_pk = intru_pk->next) {
+    for (intru_pk = cfg->ntru_public_keys.begin; intru_pk;
+         intru_pk = intru_pk->next) {
       ++keyload_count;
       /*  absorb oneof */
       sz += pb3_sizeof_oneof();
@@ -722,8 +723,10 @@ void mam_send_msg(mam_send_msg_context_t *cfg, trits_t *b) {
       mam_ntru_pk_node *intru_pk;
 
       if (cfg->key_plain) ++keyload_count;
-      for (ipsk = cfg->psks.begin; ipsk; ipsk = ipsk->next) ++keyload_count;
-      for (intru_pk = cfg->ntru_pks.begin; intru_pk; intru_pk = intru_pk->next)
+      for (ipsk = cfg->pre_shared_keys.begin; ipsk; ipsk = ipsk->next)
+        ++keyload_count;
+      for (intru_pk = cfg->ntru_public_keys.begin; intru_pk;
+           intru_pk = intru_pk->next)
         ++keyload_count;
 
       /*  repeated */
@@ -739,7 +742,7 @@ void mam_send_msg(mam_send_msg_context_t *cfg, trits_t *b) {
         mam_wrap_keyload_plain(fork, b, mam_send_msg_cfg_key(cfg));
       }
 
-      for (ipsk = cfg->psks.begin; ipsk; ipsk = ipsk->next) {
+      for (ipsk = cfg->pre_shared_keys.begin; ipsk; ipsk = ipsk->next) {
         /*  absorb oneof keyload */
         keyload = (tryte_t)mam_msg_keyload_psk;
         pb3_wrap_absorb_tryte(s, b, keyload);
@@ -751,7 +754,7 @@ void mam_send_msg(mam_send_msg_context_t *cfg, trits_t *b) {
                              mam_psk_trits(&ipsk->info));
       }
 
-      for (intru_pk = cfg->ntru_pks.begin; intru_pk;
+      for (intru_pk = cfg->ntru_public_keys.begin; intru_pk;
            intru_pk = intru_pk->next) {
         /*  absorb oneof keyload */
         keyload = (tryte_t)mam_msg_keyload_ntru;

@@ -128,7 +128,7 @@ trits_t mam_psk_id(mam_psk_t *p);
 trits_t mam_psk_trits(mam_psk_t *p);
 
 def_mam_list_node(mam_psk_t, mam_psk_node);
-def_mam_list(mam_psk_node, mam_psk_list);
+def_mam_list(mam_psk_node, mam_pre_shared_keys_list);
 
 /*! \brief Recipient's NTRU public key. */
 typedef struct mam_ntru_pk_s {
@@ -241,8 +241,10 @@ typedef struct mam_send_msg_context_s {
   word_t key[MAM2_WORDS(
       MAM2_SPONGE_KEY_SIZE)]; /*!< Trits (memory) for session key. */
   bool_t key_plain;           /*!< Include session key in plain? */
-  mam_psk_list psks;          /*!< Encrypt message for these psks. */
-  mam_ntru_pk_list ntru_pks; /*!< Encrypt message for these NTRU public keys. */
+  mam_pre_shared_keys_list
+      pre_shared_keys; /*!< Encrypt message for these psks. */
+  mam_ntru_pk_list
+      ntru_public_keys; /*!< Encrypt message for these NTRU public keys. */
 } mam_send_msg_context_t;
 
 size_t mam_send_msg_size(mam_send_msg_context_t *cfg);
