@@ -439,7 +439,7 @@ retcode_t iota_api_check_consistency(iota_api_t const *const api, tangle_t *cons
     bundle_transactions_free(&bundle);
   }
 
-  rw_lock_handle_rdlock(&api->core->consensus.milestone_tracker.latest_snapshot->rw_lock);
+  rw_lock_handle_rdlock(&api->core->consensus.milestone_tracker.snapshots_provider->latest_snapshot.rw_lock);
 
   if ((ret = iota_consensus_exit_prob_transaction_validator_init(
            &api->core->consensus.conf, &api->core->consensus.milestone_tracker, &api->core->consensus.ledger_validator,
@@ -458,7 +458,7 @@ retcode_t iota_api_check_consistency(iota_api_t const *const api, tangle_t *cons
 
   iota_consensus_exit_prob_transaction_validator_destroy(&walker_validator);
 
-  rw_lock_handle_unlock(&api->core->consensus.milestone_tracker.latest_snapshot->rw_lock);
+  rw_lock_handle_unlock(&api->core->consensus.milestone_tracker.snapshots_provider->latest_snapshot.rw_lock);
 
 done:
   bundle_transactions_free(&bundle);
