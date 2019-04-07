@@ -33,9 +33,10 @@ static void* local_snapshots_manager_routine(void* arg) {
       if (err == RC_OK) {
         exponential_delay_factor = 1;
       } else if (err == RC_LEDGER_VALIDATOR_TRANSACTION_NOT_SOLID) {
-        log_info(logger_id, "Node is still syncing, local snapshot is delayed in %d ms\n",
-                 exponential_delay_factor * LOCAL_SNAPSHOTS_RESCAN_INTERVAL_MS);
         exponential_delay_factor *= 2;
+        log_info(logger_id,
+                 "Attempted snapshot is not solid, node might still be syncing, local snapshot is delayed in %d ms\n",
+                 exponential_delay_factor * LOCAL_SNAPSHOTS_RESCAN_INTERVAL_MS);
       } else {
         goto cleanup;
       }
