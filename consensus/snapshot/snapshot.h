@@ -99,6 +99,16 @@ retcode_t iota_snapshot_apply_patch(snapshot_t *const snapshot, state_delta_t *c
  */
 retcode_t iota_snapshot_copy(snapshot_t const *const src, snapshot_t *const dst);
 
+/**
+ * Coppies a snapshot struct
+ *
+ * @param src The source snapshot
+ * @param dst The destination snapshot
+ *
+ * @return a status code
+ */
+retcode_t iota_snapshot_copy(snapshot_t const *const src, snapshot_t *const dst);
+
 #ifdef __cplusplus
 }
 #endif
